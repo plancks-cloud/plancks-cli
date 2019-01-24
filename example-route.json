@@ -1,5 +1,10 @@
 {
-  "id": "1",
-  "domainName": "localhost",
-  "address": "127.0.0.1:8000"
+  "type": "route",
+  "list": [
+    {
+      "id": "1",
+      "domainName": "localhost",
+      "address": "192.168.88.100:9000"
+    }
+  ]
 }

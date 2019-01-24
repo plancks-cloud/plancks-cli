@@ -49,7 +49,7 @@ func handleApply(endpoint, file *string) {
 	client := &http.Client{}
 	client.Timeout = time.Second * 5
 
-	uri := fmt.Sprint(*endpoint, "/route")
+	uri := fmt.Sprint(*endpoint, "/apply")
 	body := bytes.NewBuffer(b)
 	req, err := http.NewRequest(http.MethodPut, uri, body)
 	if err != nil {
