@@ -3,7 +3,6 @@ package main
 import (
 	"bytes"
 	"errors"
-	"flag"
 	"fmt"
 	"github.com/sirupsen/logrus"
 	"io/ioutil"
@@ -118,37 +117,6 @@ func split(in string) (f, v string, err error) {
 	s := strings.Split(in, "=")
 	f, v = s[0], s[1]
 	return
-}
-
-func main2() {
-	//Actions
-	apply := flag.Bool("apply", false, "Apply a file")
-
-	//General
-	saveEndpoint := flag.Bool("save-endpoint", false, "Whether or not to save the url to file.")
-	endpoint := flag.String("endpoint", "http://127.0.0.1:6227", "Endpoint of the PC API server.")
-
-	//Specific
-	file := flag.String("file", "", "Json file to apply.")
-
-	flag.Parse()
-	fmt.Printf("apply: %v, saveEndpoint: %v, file: %s, endpoint: %s\n", *apply, *saveEndpoint, *file, *endpoint)
-
-	//TODO: lots of checking....
-
-	//TODO: persist to file
-	if *saveEndpoint {
-		//Where to save?
-		//runtime.GOOS
-	}
-
-	//Route the action
-	if *apply {
-		handleApply(endpoint, file)
-	} else {
-		panic("Nothing to do!")
-	}
-
 }
 
 func handleApply(endpoint, file *string) {
