@@ -62,6 +62,7 @@ func main() {
 
 	if delete {
 		handleDelete(&endpoint, &filename)
+		return
 	}
 
 	if get {
