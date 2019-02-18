@@ -66,7 +66,8 @@ func main() {
 	}
 
 	if get {
-		//TODO
+		handleGet(&endpoint, &object)
+		return
 	}
 
 }
@@ -178,4 +179,30 @@ func handleDelete(endpoint, file *string) {
 	}
 
 	fmt.Printf("Response status code: %d, text:\n%s\n", resp.StatusCode, string(b))
+}
+
+func handleGet(endpoint, object *string) {
+	//http://localhost:6227/route
+	client := &http.Client{}
+	client.Timeout = time.Second * 5
+
+	uri := fmt.Sprint(*endpoint, "/", *object)
+	req, err := http.NewRequest(http.MethodGet, uri, nil)
+	if err != nil {
+		log.Fatalf("http.NewRequest() failed with '%s'\n", err)
+	}
+
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Fatalf("client.Do() failed with '%s'\n", err)
+	}
+
+	defer resp.Body.Close()
+	b, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatalf("ioutil.ReadAll() failed with '%s'\n", err)
+	}
+
+	fmt.Printf("Response status code: %d, text:\n%s\n", resp.StatusCode, string(b))
+
 }
