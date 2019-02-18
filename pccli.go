@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/sirupsen/logrus"
+	"github.com/tidwall/pretty"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -31,13 +32,8 @@ func main() {
 	}
 	readFlags()
 
-	if !apply && !delete {
-		logrus.Error(errors.New("No command. Supported commands are apply, delete."))
-		return
-	}
-
-	if !apply && !delete {
-		logrus.Error(errors.New("No command. Supported commands are apply, delete."))
+	if !apply && !delete && !get {
+		logrus.Error(errors.New("No command. Supported commands are apply, delete, get."))
 		return
 	}
 
@@ -48,9 +44,9 @@ func main() {
 		return
 	}
 
-	if (endpoint == "" && apply) || (endpoint == "" && delete) {
-		endpoint = "127.0.0.1:6227"
-		logrus.Println("Assuming endpoint 127.0.0.1:6227")
+	if (endpoint == "" && apply) || (endpoint == "" && delete) || (endpoint == "" && get) {
+		endpoint = "http://127.0.0.1:6227"
+		logrus.Println("Assuming endpoint http://127.0.0.1:6227")
 	}
 
 	/// End of checking
@@ -105,7 +101,7 @@ func readFlags() {
 			continue
 		}
 		if f == "-o" || f == "-object" {
-			endpoint = v
+			object = v
 			continue
 		}
 	}
@@ -147,8 +143,9 @@ func handleApply(endpoint, file *string) {
 	if err != nil {
 		log.Fatalf("ioutil.ReadAll() failed with '%s'\n", err)
 	}
-
-	fmt.Printf("Response status code: %d, text:\n%s\n", resp.StatusCode, string(b))
+	p := pretty.Pretty(b)
+	p = pretty.Color(p, pretty.TerminalStyle)
+	fmt.Println(string(p))
 }
 
 func handleDelete(endpoint, file *string) {
@@ -177,8 +174,9 @@ func handleDelete(endpoint, file *string) {
 	if err != nil {
 		log.Fatalf("ioutil.ReadAll() failed with '%s'\n", err)
 	}
-
-	fmt.Printf("Response status code: %d, text:\n%s\n", resp.StatusCode, string(b))
+	p := pretty.Pretty(b)
+	p = pretty.Color(p, pretty.TerminalStyle)
+	fmt.Println(string(p))
 }
 
 func handleGet(endpoint, object *string) {
@@ -202,7 +200,8 @@ func handleGet(endpoint, object *string) {
 	if err != nil {
 		log.Fatalf("ioutil.ReadAll() failed with '%s'\n", err)
 	}
-
-	fmt.Printf("Response status code: %d, text:\n%s\n", resp.StatusCode, string(b))
+	p := pretty.Pretty(b)
+	p = pretty.Color(p, pretty.TerminalStyle)
+	fmt.Println(string(p))
 
 }
