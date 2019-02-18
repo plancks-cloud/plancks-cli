@@ -73,11 +73,11 @@ func readFirst() (err error) {
 		err = errors.New("Not enough arguments. Provide either apply or delete.")
 		return
 	}
-	if os.Args[1] == "apply" || os.Args[0] == "a" {
+	if os.Args[1] == "apply" || os.Args[1] == "a" {
 		apply = true
-	} else if os.Args[1] == "delete" || os.Args[0] == "d" {
+	} else if os.Args[1] == "delete" || os.Args[1] == "d" {
 		delete = true
-	} else if os.Args[1] == "get" || os.Args[0] == "g" {
+	} else if os.Args[1] == "get" || os.Args[1] == "g" {
 		get = true
 	}
 	return
