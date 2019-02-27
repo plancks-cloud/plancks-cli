@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
+	"github.com/plancks-cloud/plancks-cli/pc"
 	"github.com/sirupsen/logrus"
 	"github.com/tidwall/pretty"
 	"io/ioutil"
@@ -18,6 +19,7 @@ import (
 var apply bool
 var delete bool
 var get bool
+var install bool
 
 //Flags
 var filename string
@@ -32,7 +34,7 @@ func main() {
 	}
 	readFlags()
 
-	if !apply && !delete && !get {
+	if !apply && !delete && !get && !install {
 		logrus.Error(errors.New("No command. Supported commands are apply, delete, get."))
 		return
 	}
@@ -50,6 +52,11 @@ func main() {
 	}
 
 	/// End of checking
+
+	if install {
+		handleInstall()
+		return
+	}
 
 	if apply {
 		handleApply(&endpoint, &filename)
@@ -79,6 +86,8 @@ func readFirst() (err error) {
 		delete = true
 	} else if os.Args[1] == "get" || os.Args[1] == "g" {
 		get = true
+	} else if os.Args[1] == "install" || os.Args[1] == "i" {
+		install = true
 	}
 	return
 }
@@ -204,4 +213,8 @@ func handleGet(endpoint, object *string) {
 	p = pretty.Color(p, pretty.TerminalStyle)
 	fmt.Println(string(p))
 
+}
+
+func handleInstall() {
+	pc.Install()
 }
