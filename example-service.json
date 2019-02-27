@@ -1,0 +1,12 @@
+{
+	"type": "service",
+	"list": [
+		{
+			"id": "1",
+			"name": "nginx1",
+			"image": "nginx:latest",
+			"replicas": 1,
+			"memoryLimit": 32
+		}		
+	]
+}
