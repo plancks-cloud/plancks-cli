@@ -20,11 +20,14 @@ var apply bool
 var delete bool
 var get bool
 var install bool
+var version bool
 
 //Flags
 var filename string
 var endpoint string
 var object string
+
+const versionID = "v1.2"
 
 func main() {
 	err := readFirst()
@@ -34,8 +37,8 @@ func main() {
 	}
 	readFlags()
 
-	if !apply && !delete && !get && !install {
-		logrus.Error(errors.New("No command. Supported commands are apply, delete, get."))
+	if !apply && !delete && !get && !install && !version {
+		logrus.Error(errors.New("No command. Supported commands are apply, delete, get, install and version"))
 		return
 	}
 
@@ -73,6 +76,15 @@ func main() {
 		return
 	}
 
+	if version {
+		handleVersion()
+		return
+	}
+
+}
+
+func handleVersion() {
+	fmt.Println(versionID)
 }
 
 func readFirst() (err error) {
@@ -88,6 +100,8 @@ func readFirst() (err error) {
 		get = true
 	} else if os.Args[1] == "install" || os.Args[1] == "i" {
 		install = true
+	} else if os.Args[1] == "version" || os.Args[1] == "v" {
+		version = true
 	}
 	return
 }
