@@ -27,7 +27,7 @@ var filename string
 var endpoint string
 var object string
 
-const versionID = "v1.1"
+const versionID = "v1.2"
 
 func main() {
 	err := readFirst()
